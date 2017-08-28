@@ -929,6 +929,12 @@ final class DocParser
             $loweredAlias = strtolower($alias);
 
             switch (true) {
+                case 'self' === $className:
+                    end(self::$annotationMetadata);
+                    $className = key(self::$annotationMetadata);
+                    $found = true;
+                    break;
+
                 case !empty ($this->namespaces):
                     foreach ($this->namespaces as $ns) {
                         if (class_exists($ns.'\\'.$className) || interface_exists($ns.'\\'.$className)) {

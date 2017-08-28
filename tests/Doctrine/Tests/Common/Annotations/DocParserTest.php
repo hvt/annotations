@@ -766,6 +766,10 @@ DOCBLOCK;
             PHP_EOL
         );
         $provider[] = array(
+            '@AnnotationWithConstants(self::INTEGER)',
+            AnnotationWithConstants::INTEGER
+        );
+        $provider[] = array(
             '@AnnotationWithConstants(AnnotationWithConstants::INTEGER)',
             AnnotationWithConstants::INTEGER
         );
@@ -802,12 +806,18 @@ DOCBLOCK;
             InterfaceWithConstants::SOME_VALUE
         );
         $provider[] = array(
-            '@AnnotationWithConstants({AnnotationWithConstants::STRING, AnnotationWithConstants::INTEGER, AnnotationWithConstants::FLOAT})',
-            array(AnnotationWithConstants::STRING, AnnotationWithConstants::INTEGER, AnnotationWithConstants::FLOAT)
+            '@AnnotationWithConstants({self::STRING, AnnotationWithConstants::STRING, AnnotationWithConstants::INTEGER, AnnotationWithConstants::FLOAT})',
+            array(AnnotationWithConstants::STRING, AnnotationWithConstants::STRING, AnnotationWithConstants::INTEGER, AnnotationWithConstants::FLOAT)
         );
         $provider[] = array(
             '@AnnotationWithConstants({
                 AnnotationWithConstants::STRING = AnnotationWithConstants::INTEGER
+             })',
+            array(AnnotationWithConstants::STRING => AnnotationWithConstants::INTEGER)
+        );
+        $provider[] = array(
+            '@AnnotationWithConstants({
+                self::STRING = self::INTEGER
              })',
             array(AnnotationWithConstants::STRING => AnnotationWithConstants::INTEGER)
         );
@@ -825,15 +835,21 @@ DOCBLOCK;
         );
         $provider[] = array(
             '@AnnotationWithConstants({
+                self::STRING = self::INTEGER,
                 AnnotationWithConstants::STRING = AnnotationWithConstants::INTEGER,
                 ClassWithConstants::SOME_KEY = ClassWithConstants::SOME_VALUE,
                 Doctrine\Tests\Common\Annotations\Fixtures\ClassWithConstants::SOME_KEY = InterfaceWithConstants::SOME_VALUE
              })',
             array(
                 AnnotationWithConstants::STRING => AnnotationWithConstants::INTEGER,
+                AnnotationWithConstants::STRING => AnnotationWithConstants::INTEGER,
                 ClassWithConstants::SOME_KEY    => ClassWithConstants::SOME_VALUE,
                 ClassWithConstants::SOME_KEY    => InterfaceWithConstants::SOME_VALUE
             )
+        );
+        $provider[] = array(
+            '@AnnotationWithConstants(self::class)',
+            AnnotationWithConstants::class
         );
         $provider[] = array(
             '@AnnotationWithConstants(AnnotationWithConstants::class)',
